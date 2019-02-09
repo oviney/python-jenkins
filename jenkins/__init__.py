@@ -1306,9 +1306,12 @@ class Jenkins(object):
             Plugin:mailer, Plugin:jquery, Plugin:antisamy-markup-formatter,
             Plugin:maven-plugin, Plugin:pam-auth]'
         '''
-        magic_str = ')]}.'
-        print_magic_str = 'print("{}")'.format(magic_str)
-        data = {'script': "{0}\n{1}".format(script, print_magic_str).encode('utf-8')}
+        # Fix: This hack does not work anymore.  It causes the code to throw a list index out of range.
+        # The fix below allows the code to run clean.  Tested against latest LTS version of Jenkins.
+        # magic_str = ')]}.'
+        # print_magic_str = 'print("{}")'.format(magic_str)
+        # data = {'script': "{0}\n{1}".format(script, print_magic_str).encode('utf-8')}
+        data = {'script': "{0}".format(script).encode('utf-8')}
         if node:
             url = self._build_url(NODE_SCRIPT_TEXT, locals())
         else:
